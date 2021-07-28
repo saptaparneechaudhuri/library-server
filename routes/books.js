@@ -18,17 +18,19 @@ router.get(`/`, async (req, res) => {
   //     });
   //   });
 
-  res.send(bookList);
+  res.send({ bookList: bookList });
 });
 
 // Get a single book detail by id
 router.get(`/:id`, async (req, res) => {
   const book = await BookInventory.findById(req.params.id);
+  // console.log(book.bookUID);
 
   if (!book) {
     res.status(500).json({ success: false });
   }
-  res.send(book);
+
+  res.send({ book: book, bookUID: book.bookUID });
 });
 
 // router.post("/",(req,res) => {
