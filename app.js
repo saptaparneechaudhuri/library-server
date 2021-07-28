@@ -32,9 +32,9 @@ mongoose
     console.log(err);
   });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(api);
-  console.log("server is running at http://localhost:3000");
+  console.log("server is running");
 });
 
 // Insert many books into the library
