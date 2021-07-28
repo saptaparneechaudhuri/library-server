@@ -12,11 +12,14 @@ const api = process.env.API_URL;
 //routes
 const bookInventoryRouter = require("./routes/books");
 const completeInventoryRouter = require("./routes/completeInventory");
+const bookIssues = require("./routes/issues");
 
 //middleware
 app.use(express.json());
 app.use(`${api}/books`, bookInventoryRouter);
 app.use(`${api}/completeinventory`, completeInventoryRouter);
+app.use(`${api}/bookissue`, bookIssues);
+
 app.use(cors());
 app.options("*", cors());
 
@@ -32,9 +35,12 @@ mongoose
     console.log(err);
   });
 
-app.listen(process.env.PORT || 3000, () => {
+// process.env.PORT is for production port
+
+var server = app.listen(process.env.PORT || 3000, () => {
   console.log(api);
-  console.log("server is running");
+  let port = server.address().port;
+  console.log("server is running at port " + port);
 });
 
 // Insert many books into the library
