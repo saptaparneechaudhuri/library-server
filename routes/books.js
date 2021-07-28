@@ -18,7 +18,7 @@ router.get(`/`, async (req, res) => {
   //     });
   //   });
 
-  res.send({ bookList });
+  res.send(bookList);
 });
 
 // Get a single book detail by id
