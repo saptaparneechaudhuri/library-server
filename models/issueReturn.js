@@ -23,4 +23,20 @@ const issueReturnSchema = mongoose.Schema({
   },
 });
 
+// use a virtual to get id as id and not _id
+
+issueReturnSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+issueReturnSchema.virtual("userid").get(function () {
+  return this.user.toHexString();
+});
+
+// set the virtuals to show
+
+issueReturnSchema.set("toJSON", {
+  virtuals: true,
+});
+
 exports.IssueReturn = mongoose.model("IssueReturn", issueReturnSchema);
