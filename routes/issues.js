@@ -1,12 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 
 const { IssueReturn } = require("../models/issueReturn");
 
-// Sends the list of books issued for a user
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads");
+  },
+  filename: function (req, file, cb) {
+    const fileName = file.originalname.split(" ").join("-");
+    cb(null, `${fileName}-${Date.now()}`);
+  },
+});
+
+const uploadOptions = multer({ storage: storage });
+
+// Sends the list of books issued for a user by using user Id (TODO)
 
 router.get("/", async (req, res) => {
-  const issueList = await IssueReturn.find();
+  const issueList = await IssueReturn.find().populate("user", "name");
   if (!issueList) {
     res.status(500).json({ success: false });
   }
@@ -14,19 +27,30 @@ router.get("/", async (req, res) => {
   res.send(issueList);
 });
 
-// Post the book that user lends
+// Post all the book that users lend
 router.post("/", async (req, res) => {
-  let bookIssued = new IssueReturn({
-    ISBN: req.body.ISBN,
-    bookUID: req.body.bookUID,
+  let book = new IssueReturn({
+    booksIssued: req.body.booksIssued,
+    image: req.body.image,
     user: req.body.user,
   });
 
-  bookIssued = await bookIssued.save();
+  book = await book.save();
 
-  if (!bookIssued) return res.status(500).send("Book cannot be issued");
+  if (!book) return res.status(500).send("Book cannot be issued");
 
-  res.send(bookIssued);
+  res.send(book);
+});
+
+// Get the books for a particular user
+router.get(`/get/userbooks/:userid`, async (req, res) => {
+  const userBookList = await IssueReturn.find({ user: req.params.userid });
+  console.log(userBookList);
+
+  if (!userBookList) {
+    res.status(500).json({ success: false });
+  }
+  res.send(userBookList);
 });
 
 module.exports = router;
