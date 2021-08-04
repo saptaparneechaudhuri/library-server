@@ -29,10 +29,6 @@ issueReturnSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-issueReturnSchema.virtual("userid").get(function () {
-  return this.user.toHexString();
-});
-
 // set the virtuals to show
 
 issueReturnSchema.set("toJSON", {
