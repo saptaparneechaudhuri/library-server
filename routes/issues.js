@@ -19,7 +19,10 @@ const uploadOptions = multer({ storage: storage });
 // Sends the list of books issued for a user by using user Id (TODO)
 
 router.get("/", async (req, res) => {
-  const issueList = await IssueReturn.find().populate("user", "name");
+  const issueList = await IssueReturn.find();
+
+  // const issueList = await IssueReturn.find().populate("user", "name");
+  // console.log(issueList);
   if (!issueList) {
     res.status(500).json({ success: false });
   }
