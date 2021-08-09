@@ -61,17 +61,6 @@ router.put("/:id", async (req, res) => {
   const book = await BookInventory.findById(req.params.id);
   if (!book) return res.status(400).send("Invalid Book!");
 
-  // const file = req.file;
-  // let imagepath;
-
-  // if (file) {
-  //   const fileName = file.filename;
-  //   const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
-  //   imagepath = `${basePath}${fileName}`;
-  // } else {
-  //   imagepath = product.image;
-  // }
-
   const updatedBook = await BookInventory.findByIdAndUpdate(
     req.params.id,
     {
