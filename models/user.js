@@ -26,6 +26,10 @@ userSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
+userSchema.virtual("library_tokens").get(function () {
+  return 3;
+});
+
 // set the virtuals to show
 
 userSchema.set("toJSON", {

@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
 
 const uploadOptions = multer({ storage: storage });
 
-// Sends the list of books issued for a user by using user Id (TODO)
+// get all books issued
 
 router.get("/", async (req, res) => {
   // const issueList = await IssueReturn.find();
@@ -51,8 +51,10 @@ router.post("/", async (req, res) => {
 
 // Get the books for a particular user
 router.get(`/get/userbooks/:userid`, async (req, res) => {
-  const userBookList = await IssueReturn.find({ user: req.params.userid });
-  console.log(userBookList);
+  const userBookList = await IssueReturn.find({
+    user: req.params.userid,
+  }).populate("user");
+  // console.log(userBookList);
 
   if (!userBookList) {
     res.status(500).json({ success: false });

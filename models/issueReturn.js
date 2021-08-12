@@ -17,6 +17,12 @@ const issueReturnSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "Return Due",
+  },
+
   issueDate: {
     type: Date,
     default: Date.now,
@@ -29,6 +35,23 @@ issueReturnSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
+issueReturnSchema.virtual("issueDateFormat").get(function () {
+  let day = this.issueDate.getDay();
+  let month = this.issueDate.getMonth();
+  // let newDate = new Date()
+  let year = this.issueDate.getFullYear();
+
+  return +day + 1 + "/" + (+month + 1) + "/" + year;
+});
+
+issueReturnSchema.virtual("returnDateFormat").get(function () {
+  let day = this.issueDate.getDay();
+  let month = this.issueDate.getMonth();
+  // let newDate = new Date()
+  let year = this.issueDate.getFullYear();
+
+  return day + "/" + (+month + 2) + "/" + year;
+});
 // set the virtuals to show
 
 issueReturnSchema.set("toJSON", {
