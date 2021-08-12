@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -85,10 +87,6 @@ router.put("/:id", async (req, res) => {
   const updatedLibraryToken = await User.findByIdAndUpdate(
     req.params.id,
     {
-      name: req.body.name,
-      email: req.body.email,
-      passwordHash: req.body.password,
-      isAdmin: req.body.isAdmin,
       library_tokens: req.body.library_tokens,
     },
     { new: true }
